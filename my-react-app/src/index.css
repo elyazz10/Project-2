@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+:root {
+  --gym-bg: #0B0F19;
+  --gym-card: #111827;
+  --gym-primary: #F97316;
+  --gym-text: #FFFFFF;
+  --gym-muted: #9CA3AF;
+}
+
+@theme {
+  --color-gym-bg: var(--gym-bg);
+  --color-gym-card: var(--gym-card);
+  --color-gym-primary: var(--gym-primary);
+  --color-gym-text: var(--gym-text);
+  --color-gym-muted: var(--gym-muted);
+  --font-sans: 'Inter', sans-serif;
+}
+
+body {
+  background-color: var(--gym-bg);
+  color: var(--gym-text);
+  font-family: var(--font-sans);
+}
+
+/* Custom Utilities for Premium Fitness Page */
+@utility text-gradient {
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, var(--color-gym-primary), #fb923c); /* orange-400 */
+}
+
+@utility glass-card {
+  background-color: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid #1f2937; /* gray-800 */
+  border-radius: 0.75rem; /* rounded-xl */
+}
+
+@utility btn-primary {
+  background-image: linear-gradient(to right, #f97316, #ea580c); /* orange-500 to orange-600 */
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s;
+  box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+  &:hover {
+    background-image: linear-gradient(to right, #ea580c, #c2410c);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+@utility btn-outline {
+  border: 2px solid var(--color-gym-primary);
+  color: var(--color-gym-primary);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--color-gym-primary);
+    color: white;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Smooth Transitions & GPU Hardware Acceleration */
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+/* Lightweight global hover transitions (GPU-accelerated, zero performance cost) */
+button, a, [role="button"], input, select, textarea, tr {
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Scrollbar and custom scroll behaviors */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
