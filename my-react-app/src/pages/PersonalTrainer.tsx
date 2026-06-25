@@ -73,24 +73,6 @@ export default function PersonalTrainerPage() {
       .format(value)
       .replace(/\s?/g, ''); // remove spacing
   };
-
-  const handleSelectPT = (sessions: number) => {
-    const pending = localStorage.getItem('pending_subscription');
-    let basePaket = '6Ref6bulan'; // default
-    if (pending) {
-      try {
-        const parsed = JSON.parse(pending);
-        if (parsed.paket) basePaket = parsed.paket;
-      } catch (e) {}
-    }
-    localStorage.setItem('pending_subscription', JSON.stringify({
-      paket: basePaket,
-      withPT: true,
-      sessions: name, pt_duration_months: duration_months,
-      trainer_id: null
-    }));
-  };
-
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);

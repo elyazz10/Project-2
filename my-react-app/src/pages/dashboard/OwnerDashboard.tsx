@@ -91,6 +91,7 @@ interface Subscription {
   gross_amount?: string | number;
   trainer_fee?: string | number;
   trainer_subscription_end_date?: string;
+  trainer_end_date?: string;
 }
 
 export default function OwnerDashboard() {
