@@ -79,7 +79,7 @@ export default function PersonalTrainerPage() {
 
     const fetchTrainers = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/trainers');
+        const response = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/trainers');
         if (response.ok) {
           const data = await response.json();
           const formattedData = data.map((t: any) => ({
@@ -97,7 +97,7 @@ export default function PersonalTrainerPage() {
 
     const fetchPtPackages = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/pt-packages');
+        const response = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/pt-packages');
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.packages && data.packages.length > 0) {

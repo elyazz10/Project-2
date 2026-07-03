@@ -46,7 +46,7 @@ export default function MembershipHistory() {
 
     try {
       // Load user profile
-      const userRes = await fetch('http://127.0.0.1:8000/api/member/dashboard', {
+      const userRes = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/member/dashboard', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
@@ -66,7 +66,7 @@ export default function MembershipHistory() {
       }
 
       // Load all subscriptions (history)
-      const subRes = await fetch('http://127.0.0.1:8000/api/member/subscriptions', {
+      const subRes = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/member/subscriptions', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',

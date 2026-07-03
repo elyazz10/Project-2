@@ -67,7 +67,7 @@ export default function TrainerDashboard() {
 
   const fetchDashboardData = async (token: string) => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/trainer/dashboard', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/trainer/dashboard', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
@@ -91,7 +91,7 @@ export default function TrainerDashboard() {
     if (!token) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/trainer/bookings/${bookingId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'}/api/trainer/bookings/${bookingId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

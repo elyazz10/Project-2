@@ -100,7 +100,7 @@ export default function MemberDashboard() {
     }
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/member/dashboard', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/member/dashboard', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
@@ -149,7 +149,7 @@ export default function MemberDashboard() {
       // Parallelize the data loading to make it load much faster
       await Promise.all([
         loadDashboardData(),
-        fetch('http://127.0.0.1:8000/api/trainers')
+        fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/trainers')
           .then(async (res) => {
             if (res.ok) {
               const trainersData = await res.json();
@@ -161,7 +161,7 @@ export default function MemberDashboard() {
             }
           })
           .catch((e) => console.error(e)),
-        fetch('http://127.0.0.1:8000/api/membership-plans')
+        fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/membership-plans')
           .then(async (res) => {
             if (res.ok) {
               const plansData = await res.json();
@@ -225,7 +225,7 @@ export default function MemberDashboard() {
     const token = localStorage.getItem('token');
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/member/bookings', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/member/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -260,7 +260,7 @@ export default function MemberDashboard() {
     if (!token) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/member/bookings/${bookingId}/cancel`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'}/api/member/bookings/${bookingId}/cancel`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -303,7 +303,7 @@ export default function MemberDashboard() {
     const token = localStorage.getItem('token');
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/member/profile', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/member/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

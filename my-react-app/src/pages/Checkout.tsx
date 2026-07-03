@@ -122,7 +122,7 @@ function CheckoutContent() {
     const initLoad = async () => {
       console.log(`waktu fetch mulai: ${(performance.now() - mountTime.current).toFixed(2)} ms`);
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/member/checkout-data', {
+        const response = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/member/checkout-data', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
@@ -262,7 +262,7 @@ function CheckoutContent() {
     setSubmitting(true);
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/member/subscribe/verify', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/member/subscribe/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -301,7 +301,7 @@ function CheckoutContent() {
     const token = localStorage.getItem('token');
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/member/subscribe', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/member/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

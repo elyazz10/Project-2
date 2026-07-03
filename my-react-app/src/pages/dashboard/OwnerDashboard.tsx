@@ -159,7 +159,7 @@ export default function OwnerDashboard() {
   // Authentication & Main stats loader
   const loadMainStats = async (token: string) => {
     try {
-      const statsRes = await fetch('http://127.0.0.1:8000/api/admin/dashboard-stats', {
+      const statsRes = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/admin/dashboard-stats', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -173,7 +173,7 @@ export default function OwnerDashboard() {
         setStats(statsData.stats);
       }
 
-      const bookingsRes = await fetch('http://127.0.0.1:8000/api/admin/bookings', {
+      const bookingsRes = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/admin/bookings', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (bookingsRes.ok) {
@@ -181,7 +181,7 @@ export default function OwnerDashboard() {
         setBookings(bookingsData.bookings);
       }
 
-      const trainersRes = await fetch('http://127.0.0.1:8000/api/admin/trainers', {
+      const trainersRes = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/admin/trainers', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (trainersRes.ok) {
@@ -198,7 +198,7 @@ export default function OwnerDashboard() {
     const token = localStorage.getItem('token');
     if (!token) return;
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/admin/members', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/admin/members', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -215,7 +215,7 @@ export default function OwnerDashboard() {
     const token = localStorage.getItem('token');
     if (!token) return;
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/admin/subscriptions', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/admin/subscriptions', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -262,7 +262,7 @@ export default function OwnerDashboard() {
     const token = localStorage.getItem('token');
     if (!token) return;
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/admin/walk-in-logs', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/admin/walk-in-logs', {
         headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
       });
       const data = await res.json();
@@ -281,7 +281,7 @@ export default function OwnerDashboard() {
     setSubmittingWalkIn(true);
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/admin/walk-in-logs', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/admin/walk-in-logs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -324,7 +324,7 @@ export default function OwnerDashboard() {
     if (!token) return;
     if (!confirm('Apakah Anda yakin ingin menghapus log kunjungan ini?')) return;
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/admin/walk-in-logs/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'}/api/admin/walk-in-logs/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
       });
@@ -353,7 +353,7 @@ export default function OwnerDashboard() {
     const token = localStorage.getItem('token');
     if (!token) return;
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/gym-features', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/gym-features', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -376,8 +376,8 @@ export default function OwnerDashboard() {
     const token = localStorage.getItem('token');
 
     const url = editingFeature
-      ? `http://127.0.0.1:8000/api/admin/gym-features/${editingFeature.id}`
-      : 'http://127.0.0.1:8000/api/admin/gym-features';
+      ? `${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'}/api/admin/gym-features/${editingFeature.id}`
+      : (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/admin/gym-features';
 
     const method = editingFeature ? 'PUT' : 'POST';
 
@@ -413,7 +413,7 @@ export default function OwnerDashboard() {
     const token = localStorage.getItem('token');
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/admin/gym-features/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'}/api/admin/gym-features/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -463,7 +463,7 @@ export default function OwnerDashboard() {
   const handleUpdateBookingStatus = async (bookingId: number, status: string) => {
     const token = localStorage.getItem('token');
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/admin/bookings/${bookingId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'}/api/admin/bookings/${bookingId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -505,7 +505,7 @@ export default function OwnerDashboard() {
     if (!confirm(`Apakah Anda yakin ingin menandai transaksi ini sebagai ${status === 'active' ? 'AKTIF (LUNAS)' : 'BATAL'}?`)) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/admin/subscriptions/${subId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'}/api/admin/subscriptions/${subId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -540,7 +540,7 @@ export default function OwnerDashboard() {
     const tagsArray = trainerForm.tags.split(',').map(tag => tag.trim()).filter(Boolean);
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/admin/trainers', {
+      const res = await fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/admin/trainers', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -582,7 +582,7 @@ export default function OwnerDashboard() {
     const tagsArray = trainerForm.tags.split(',').map(tag => tag.trim()).filter(Boolean);
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/admin/trainers/${editingTrainer.id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'}/api/admin/trainers/${editingTrainer.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -644,7 +644,7 @@ export default function OwnerDashboard() {
     const token = localStorage.getItem('token');
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/admin/trainers/${trainerId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'}/api/admin/trainers/${trainerId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

@@ -132,7 +132,7 @@ export default function MembershipPage() {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
     if (token) {
-      fetch('http://127.0.0.1:8000/api/member/checkout-data', {
+      fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/member/checkout-data', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
@@ -151,7 +151,7 @@ export default function MembershipPage() {
     }
 
     // Fetch dynamic membership plans
-    fetch('http://127.0.0.1:8000/api/membership-plans')
+    fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/membership-plans')
       .then(res => res.json())
       .then(data => {
         if (data.success && data.plans && data.plans.length > 0) {
@@ -178,7 +178,7 @@ export default function MembershipPage() {
       .catch(err => console.error("Error fetching dynamic plans:", err));
 
     // Fetch dynamic gym features
-    fetch('http://127.0.0.1:8000/api/gym-features')
+    fetch((import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000') + '/api/gym-features')
       .then(res => res.json())
       .then(data => {
         if (data.success && data.features && data.features.length > 0) {
