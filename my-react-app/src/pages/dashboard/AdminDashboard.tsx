@@ -1068,7 +1068,7 @@ export default function AdminDashboard() {
 
       {/* SIDEBAR NAVIGATION */}
       <aside className={`
-        fixed md:sticky top-0 bottom-0 left-0 w-64 bg-[#111625]/95 border-r border-gray-800 p-6 flex flex-col justify-between shrink-0 h-screen z-50 md:translate-x-0
+        fixed md:sticky top-0 bottom-0 left-0 w-64 bg-[#111625]/95 border-r border-gray-800 p-6 flex flex-col justify-between shrink-0 h-screen z-50 md:translate-x-0 overflow-y-auto
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         <div>
