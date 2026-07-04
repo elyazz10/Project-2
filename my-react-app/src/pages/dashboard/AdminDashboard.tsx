@@ -289,6 +289,9 @@ export default function AdminDashboard() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'trainers' }, () => {
         loadMainStats(token);
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'gym_features' }, () => {
+        fetchGymFeatures();
+      })
       .subscribe();
 
     return () => {

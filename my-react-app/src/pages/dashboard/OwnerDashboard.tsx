@@ -260,7 +260,8 @@ export default function OwnerDashboard() {
     } else if (activeTab === 'transactions' || activeTab === 'financials' || activeTab === 'walk-ins') {
       fetchSubscriptions();
       fetchWalkIns();
-
+    } else if (activeTab === 'gym-features') {
+      fetchGymFeatures();
     }
   }, [activeTab]);
 
@@ -284,6 +285,9 @@ export default function OwnerDashboard() {
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'trainers' }, () => {
         loadMainStats(token);
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'gym_features' }, () => {
+        fetchGymFeatures();
       })
       .subscribe();
 
