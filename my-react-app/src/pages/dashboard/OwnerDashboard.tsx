@@ -103,7 +103,13 @@ export default function OwnerDashboard() {
   const [activeTab, setActiveTab] = useState<string>('dashboard');
 
   // Admin Data States
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<any>({
+    total_members: 0,
+    pending_bookings: 0,
+    approved_bookings: 0,
+    total_trainers: 0,
+    total_revenue: 0
+  });
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [trainers, setTrainers] = useState<Trainer[]>([]);
   const [members, setMembers] = useState<any[]>([]);
