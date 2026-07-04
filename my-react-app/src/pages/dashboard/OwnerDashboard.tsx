@@ -567,6 +567,7 @@ export default function OwnerDashboard() {
         setTrainers(prev => [...prev, data.trainer]);
         setTrainerForm({ name: '', role: 'trainer', specialization: '', description: '', tags: '', email: '', password: '' });
         setStats((prev: any) => ({ ...prev, total_trainers: prev.total_trainers + 1 }));
+        setActiveTab('dashboard');
       } else {
         alert(data.message || 'Gagal menambahkan karyawan.');
       }
