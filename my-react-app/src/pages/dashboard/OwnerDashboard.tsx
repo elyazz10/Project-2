@@ -674,7 +674,7 @@ export default function OwnerDashboard() {
     return (
       <div className="min-h-screen bg-[#0B0F19] text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-yellow-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-yellow-500 border-t-transparent rounded-full mx-auto mb-4 animate-spin"></div>
           <div className="text-xl font-bold tracking-widest text-yellow-500 uppercase">MEMUAT PORTAL OWNER...</div>
         </div>
       </div>
