@@ -268,6 +268,34 @@ export default function AdminDashboard() {
     }
   }, [activeTab]);
 
+  // Real-time synchronization via Supabase Realtime Channels
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const channel = supabase
+      .channel('admin-dashboard-realtime-sync')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'bookings' }, () => {
+        loadMainStats(token);
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'subscriptions' }, () => {
+        loadMainStats(token);
+        fetchSubscriptions();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, () => {
+        loadMainStats(token);
+        fetchMembers();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'trainers' }, () => {
+        loadMainStats(token);
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
   // Fetch Walk-In Logs
   const fetchWalkIns = async () => {
     const token = localStorage.getItem('token');

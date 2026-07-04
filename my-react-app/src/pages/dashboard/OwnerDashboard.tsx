@@ -41,6 +41,7 @@ import {
 } from 'lucide-react';
 
 import { PredatorGymLogo } from '@/components/PredatorGymLogo';
+import { supabase } from '@/lib/supabase';
 
 interface User {
   id: number;
@@ -262,6 +263,34 @@ export default function OwnerDashboard() {
 
     }
   }, [activeTab]);
+
+  // Real-time synchronization via Supabase Realtime Channels
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const channel = supabase
+      .channel('owner-dashboard-realtime-sync')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'bookings' }, () => {
+        loadMainStats(token);
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'subscriptions' }, () => {
+        loadMainStats(token);
+        fetchSubscriptions();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, () => {
+        loadMainStats(token);
+        fetchMembers();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'trainers' }, () => {
+        loadMainStats(token);
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   // Fetch Walk-In Logs
   const fetchWalkIns = async () => {
