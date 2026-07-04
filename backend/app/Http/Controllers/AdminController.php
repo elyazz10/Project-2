@@ -147,7 +147,7 @@ class AdminController extends Controller
             'image' => 'nullable|string',
             'rating' => 'nullable|string',
             'reviews' => 'nullable|string',
-            'tags' => 'required|array',
+            'tags' => 'nullable|array',
             'email' => 'nullable|email|unique:users,email',
             'password' => 'nullable|string|min:6'
         ]);
@@ -224,7 +224,7 @@ class AdminController extends Controller
             'image' => 'nullable|string',
             'rating' => 'nullable|string',
             'reviews' => 'nullable|string',
-            'tags' => 'required|array',
+            'tags' => 'nullable|array',
             'email' => 'nullable|email|unique:users,email,' . ($associatedUser ? $associatedUser->id : 'NULL'),
             'password' => 'nullable|string|min:6'
         ]);
