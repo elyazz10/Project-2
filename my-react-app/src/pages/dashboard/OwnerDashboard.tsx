@@ -139,6 +139,7 @@ export default function OwnerDashboard() {
   const [submittingTrainer, setSubmittingTrainer] = useState(false);
   const [editingTrainer, setEditingTrainer] = useState<any>(null);
   const [employeeRoleFilter, setEmployeeRoleFilter] = useState<string>('all');
+  const [uploadingImage, setUploadingImage] = useState(false);
 
 
 
@@ -610,6 +611,46 @@ export default function OwnerDashboard() {
       alert('Koneksi ke backend gagal.');
     } finally {
       setSubmittingTrainer(false);
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Ukuran file terlalu besar! Maksimal 2MB.');
+      return;
+    }
+
+    setUploadingImage(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `trainers/${fileName}`;
+
+      const { data, error } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath);
+
+      setTrainerForm(prev => ({ ...prev, image: publicUrl }));
+      alert('Foto berhasil diunggah!');
+    } catch (err: any) {
+      console.error('Upload error:', err);
+      alert('Gagal mengunggah foto. Pastikan Anda telah membuat bucket bernama "avatars" dan menyetel aksesnya menjadi "Publik" di Dashboard Supabase Anda.');
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -1599,14 +1640,40 @@ export default function OwnerDashboard() {
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 mb-2 text-xs font-bold uppercase">Foto Karyawan (URL)</label>
-                  <input
-                    type="text"
-                    placeholder="Contoh: https://images.unsplash.com/... atau kosongkan untuk default"
-                    value={trainerForm.image}
-                    onChange={(e) => setTrainerForm({ ...trainerForm, image: e.target.value })}
-                    className="w-full bg-[#303038]/60 border border-gray-800 focus:border-yellow-500 text-white text-sm rounded-xl px-4 py-3.5 outline-none"
-                  />
+                  <label className="block text-gray-300 mb-2 text-xs font-bold uppercase">Foto Karyawan</label>
+                  <div className="space-y-3">
+                    {trainerForm.image && (
+                      <div className="relative w-24 h-24 rounded-full overflow-hidden border border-gray-700">
+                        <img src={trainerForm.image} alt="Preview" className="w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => setTrainerForm({ ...trainerForm, image: '' })}
+                          className="absolute inset-0 bg-black/60 flex items-center justify-center text-red-400 opacity-0 hover:opacity-100 transition-opacity font-bold text-xs"
+                        >
+                          Hapus
+                        </button>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center gap-3">
+                      <label className="flex items-center gap-2 px-4 py-2.5 bg-[#303038]/60 hover:bg-[#303038] border border-gray-800 focus-within:border-yellow-500 text-white text-sm rounded-xl cursor-pointer transition-colors font-semibold">
+                        <span>Pilih File Foto...</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          disabled={uploadingImage}
+                          className="hidden"
+                        />
+                      </label>
+                      {uploadingImage && (
+                        <div className="flex items-center gap-2 text-xs text-yellow-500 font-bold">
+                          <div className="w-4 h-4 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+                          <span>Mengunggah...</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Akun Login Trainer (hanya tampil jika role = trainer) */}
