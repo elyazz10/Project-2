@@ -943,7 +943,7 @@ export default function OwnerDashboard() {
 
       {/* SIDEBAR NAVIGATION */}
       <aside className={`
-        fixed md:sticky top-0 bottom-0 left-0 w-64 bg-[#111625]/95 border-r border-gray-800 p-6 flex flex-col justify-between shrink-0 h-screen z-50 md:translate-x-0 overflow-y-auto
+        fixed md:sticky top-0 bottom-0 left-0 w-64 bg-[#111625]/95 border-r border-gray-800 p-6 flex flex-col justify-between shrink-0 z-50 md:translate-x-0 overflow-y-auto
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         <div>
@@ -1040,7 +1040,7 @@ export default function OwnerDashboard() {
         </div>
 
         {/* Sidebar Footer */}
-        <div className="pt-6 border-t border-gray-800 mt-6 md:mt-0">
+        <div className="pt-6 border-t border-gray-800 mt-6 md:mt-0 pb-8 md:pb-0">
           <button
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-xl cursor-pointer"
