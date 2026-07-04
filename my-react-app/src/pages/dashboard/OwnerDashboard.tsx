@@ -60,6 +60,7 @@ interface Trainer {
   role?: string;
   description?: string;
   tags?: any;
+  image?: string;
   user?: User;
 }
 
@@ -131,6 +132,7 @@ export default function OwnerDashboard() {
     specialization: '',
     description: '',
     tags: '',
+    image: '',
     email: '',
     password: ''
   });
@@ -598,7 +600,7 @@ export default function OwnerDashboard() {
       if (res.ok) {
         alert('Data Karyawan baru berhasil ditambahkan!');
         setTrainers(prev => [...prev, data.trainer]);
-        setTrainerForm({ name: '', role: 'trainer', specialization: '', description: '', tags: '', email: '', password: '' });
+        setTrainerForm({ name: '', role: 'trainer', specialization: '', description: '', tags: '', image: '', email: '', password: '' });
         setStats((prev: any) => ({ ...prev, total_trainers: prev.total_trainers + 1 }));
         setActiveTab('dashboard');
       } else {
@@ -660,6 +662,7 @@ export default function OwnerDashboard() {
       specialization: trainer.specialization,
       description: trainer.description || '',
       tags: Array.isArray(trainer.tags) ? trainer.tags.join(', ') : (trainer.tags || ''),
+      image: trainer.image || '',
       email: trainer.user?.email || '',
       password: ''
     });
@@ -673,6 +676,7 @@ export default function OwnerDashboard() {
       specialization: '',
       description: '',
       tags: '',
+      image: '',
       email: '',
       password: ''
     });
@@ -1594,6 +1598,17 @@ export default function OwnerDashboard() {
                   />
                 </div>
 
+                <div>
+                  <label className="block text-gray-300 mb-2 text-xs font-bold uppercase">Foto Karyawan (URL)</label>
+                  <input
+                    type="text"
+                    placeholder="Contoh: https://images.unsplash.com/... atau kosongkan untuk default"
+                    value={trainerForm.image}
+                    onChange={(e) => setTrainerForm({ ...trainerForm, image: e.target.value })}
+                    className="w-full bg-[#303038]/60 border border-gray-800 focus:border-yellow-500 text-white text-sm rounded-xl px-4 py-3.5 outline-none"
+                  />
+                </div>
+
                 {/* Akun Login Trainer (hanya tampil jika role = trainer) */}
                 {trainerForm.role === 'trainer' && (
                   <div className="border-t border-gray-800/60 pt-4 mt-1 space-y-4">
@@ -1684,36 +1699,36 @@ export default function OwnerDashboard() {
                 {filteredTrainers.length > 0 ? (
                   filteredTrainers.map(t => (
                     <div key={t.id} className="bg-[#303038]/30 p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:bg-[#303038]/50 relative overflow-hidden">
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-bold text-white">{t.name}</h4>
-                          <span className={`inline-block text-[9px] uppercase font-black px-2 py-0.5 rounded-md ${t.role === 'trainer' || !t.role ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
-                              t.role === 'kasir' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
-                                t.role === 'admin' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
-                                  'bg-gray-500/10 text-gray-400 border border-gray-500/20'
-                            }`}>
-                            {t.role === 'trainer' || !t.role ? 'Trainer' : t.role === 'kasir' ? 'Kasir' : t.role === 'admin' ? 'Admin' : 'Lainnya'}
-                          </span>
+                      <div className="flex gap-4 items-center flex-grow">
+                        <img 
+                          src={t.image || 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop'} 
+                          alt={t.name}
+                          className="w-12 h-12 rounded-full object-cover border border-gray-700 shrink-0"
+                        />
+                        <div className="space-y-1.5 flex-grow">
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-bold text-white">{t.name}</h4>
+                            <span className={`inline-block text-[9px] uppercase font-black px-2 py-0.5 rounded-md ${t.role === 'trainer' || !t.role ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                t.role === 'kasir' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
+                                  t.role === 'admin' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
+                                    'bg-gray-500/10 text-gray-400 border border-gray-500/20'
+                              }`}>
+                              {t.role === 'trainer' || !t.role ? 'Trainer' : t.role === 'kasir' ? 'Kasir' : t.role === 'admin' ? 'Admin' : 'Lainnya'}
+                            </span>
+                          </div>
+                          <p className="text-xs text-yellow-500 font-semibold">
+                            {t.role === 'trainer' || !t.role ? 'Spesialisasi: ' : 'Tugas/Shift: '}
+                            {t.specialization}
+                          </p>
+                          <p className="text-[11px] text-gray-400 line-clamp-2 pr-8">{t.description || 'Tidak ada deskripsi profil.'}</p>
+
+                          {t.user?.email && (
+                            <div className="flex items-center gap-1.5 pt-1">
+                              <span className="text-[10px] text-gray-500 font-bold">Login:</span>
+                              <span className="text-[10px] text-cyan-400 font-semibold">{t.user.email}</span>
+                            </div>
+                          )}
                         </div>
-                        <p className="text-xs text-yellow-500 font-semibold">
-                          {t.role === 'trainer' || !t.role ? 'Spesialisasi: ' : 'Tugas/Shift: '}
-                          {t.specialization}
-                        </p>
-                        <p className="text-[11px] text-gray-400 line-clamp-2 pr-8">{t.description || 'Tidak ada deskripsi profil.'}</p>
-
-                        {(t.role === 'trainer' || !t.role) && (
-                          <div className="flex items-center gap-2 pt-1.5">
-                            <span className="text-[10px] bg-yellow-500/10 text-yellow-500 px-2 py-0.5 rounded-full font-bold">⭐ {t.rating}</span>
-                            <span className="text-[10px] text-gray-500 font-bold">{t.reviews} Reviews</span>
-                          </div>
-                        )}
-
-                        {t.user?.email && (
-                          <div className="flex items-center gap-1.5 pt-1">
-                            <span className="text-[10px] text-gray-500 font-bold">Login:</span>
-                            <span className="text-[10px] text-cyan-400 font-semibold">{t.user.email}</span>
-                          </div>
-                        )}
                       </div>
 
                       {/* Action buttons (Edit & Delete) */}

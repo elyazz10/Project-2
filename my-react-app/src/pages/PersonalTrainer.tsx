@@ -188,11 +188,6 @@ export default function PersonalTrainerPage() {
                     alt={trainer.name} 
                     className="w-full h-full object-cover scale-100 group-hover:scale-105"
                   />
-                  <div className="absolute bottom-4 left-4 bg-black/75 backdrop-blur-md px-3 py-1.5 rounded-lg z-20 flex items-center gap-1.5 border border-gray-700">
-                    <Star className="text-yellow-500 fill-yellow-500" size={16} />
-                    <span className="text-white text-sm font-bold">{trainer.rating}</span>
-                    <span className="text-gray-400 text-xs">({trainer.reviews})</span>
-                  </div>
                 </div>
                 
                 {/* Content Section */}

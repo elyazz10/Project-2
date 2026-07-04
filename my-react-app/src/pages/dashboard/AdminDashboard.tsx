@@ -61,6 +61,7 @@ interface Trainer {
   role?: string;
   description?: string;
   tags?: any;
+  image?: string;
 }
 
 interface Booking {
@@ -129,7 +130,8 @@ export default function AdminDashboard() {
     role: 'trainer',
     specialization: '',
     description: '',
-    tags: ''
+    tags: '',
+    image: ''
   });
   const [submittingTrainer, setSubmittingTrainer] = useState(false);
   const [editingTrainer, setEditingTrainer] = useState<any>(null);
@@ -737,7 +739,7 @@ export default function AdminDashboard() {
       if (res.ok) {
         alert('Data Karyawan baru berhasil ditambahkan!');
         setTrainers(prev => [...prev, data.trainer]);
-        setTrainerForm({ name: '', role: 'trainer', specialization: '', description: '', tags: '' });
+        setTrainerForm({ name: '', role: 'trainer', specialization: '', description: '', tags: '', image: '' });
         setStats((prev: any) => ({ ...prev, total_trainers: prev.total_trainers + 1 }));
       } else {
         alert(data.message || 'Gagal menambahkan karyawan.');
@@ -795,7 +797,8 @@ export default function AdminDashboard() {
       role: trainer.role || 'trainer',
       specialization: trainer.specialization,
       description: trainer.description || '',
-      tags: Array.isArray(trainer.tags) ? trainer.tags.join(', ') : (trainer.tags || '')
+      tags: Array.isArray(trainer.tags) ? trainer.tags.join(', ') : (trainer.tags || ''),
+      image: trainer.image || ''
     });
   };
 
@@ -806,7 +809,8 @@ export default function AdminDashboard() {
       role: 'trainer',
       specialization: '',
       description: '',
-      tags: ''
+      tags: '',
+      image: ''
     });
   };
 
@@ -1703,30 +1707,30 @@ export default function AdminDashboard() {
                 {filteredTrainers.length > 0 ? (
                   filteredTrainers.map(t => (
                     <div key={t.id} className="bg-[#303038]/30 p-4 rounded-xl border border-gray-800 flex justify-between items-center hover:bg-[#303038]/50 relative overflow-hidden">
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-bold text-white">{t.name}</h4>
-                          <span className={`inline-block text-[9px] uppercase font-black px-2 py-0.5 rounded-md ${t.role === 'trainer' || !t.role ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
-                              t.role === 'kasir' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
-                                t.role === 'admin' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
-                                  'bg-gray-500/10 text-gray-400 border border-gray-500/20'
-                            }`}>
-                            {t.role === 'trainer' || !t.role ? 'Trainer' : t.role === 'kasir' ? 'Kasir' : t.role === 'admin' ? 'Admin' : 'Lainnya'}
-                          </span>
-                        </div>
-                        <p className="text-xs text-gym-primary font-semibold">
-                          {t.role === 'trainer' || !t.role ? 'Spesialisasi: ' : 'Tugas/Shift: '}
-                          {t.specialization}
-                        </p>
-                        <p className="text-[11px] text-gray-400 line-clamp-2 pr-8">{t.description || 'Tidak ada deskripsi profil.'}</p>
-
-                        {(t.role === 'trainer' || !t.role) && (
-                          <div className="flex items-center gap-2 pt-1.5">
-                            <span className="text-[10px] bg-yellow-500/10 text-yellow-500 px-2 py-0.5 rounded-full font-bold">⭐ {t.rating}</span>
-                            <span className="text-[10px] text-gray-500 font-bold">{t.reviews} Reviews</span>
-                          </div>
-                        )}
-                      </div>
+                       <div className="flex gap-4 items-center flex-grow">
+                         <img 
+                           src={t.image || 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop'} 
+                           alt={t.name}
+                           className="w-12 h-12 rounded-full object-cover border border-gray-700 shrink-0"
+                         />
+                         <div className="space-y-1.5 flex-grow">
+                           <div className="flex items-center gap-2">
+                             <h4 className="font-bold text-white">{t.name}</h4>
+                             <span className={`inline-block text-[9px] uppercase font-black px-2 py-0.5 rounded-md ${t.role === 'trainer' || !t.role ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' :
+                                 t.role === 'kasir' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
+                                   t.role === 'admin' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
+                                     'bg-gray-500/10 text-gray-400 border border-gray-500/20'
+                               }`}>
+                               {t.role === 'trainer' || !t.role ? 'Trainer' : t.role === 'kasir' ? 'Kasir' : t.role === 'admin' ? 'Admin' : 'Lainnya'}
+                             </span>
+                           </div>
+                           <p className="text-xs text-gym-primary font-semibold">
+                             {t.role === 'trainer' || !t.role ? 'Spesialisasi: ' : 'Tugas/Shift: '}
+                             {t.specialization}
+                           </p>
+                           <p className="text-[11px] text-gray-400 line-clamp-2 pr-8">{t.description || 'Tidak ada deskripsi profil.'}</p>
+                         </div>
+                       </div>
                     </div>
                   ))
                 ) : (
