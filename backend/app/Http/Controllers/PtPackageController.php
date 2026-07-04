@@ -11,7 +11,7 @@ class PtPackageController extends Controller
     public function index()
     {
         $packages = \Illuminate\Support\Facades\Cache::remember('public_pt_packages', 86400, function () {
-            return PtPackage::where('is_active', true)->orderBy('sessions', 'asc')->get();
+            return PtPackage::where('is_active', true)->orderBy('duration_months', 'asc')->get();
         });
         return response()->json(['success' => true, 'packages' => $packages]);
     }
@@ -22,14 +22,14 @@ class PtPackageController extends Controller
         if ($request->user() && $request->user()->role !== 'owner' && $request->user()->role !== 'admin') {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        $packages = PtPackage::orderBy('sessions', 'asc')->get();
+        $packages = PtPackage::orderBy('duration_months', 'asc')->get();
         return response()->json(['success' => true, 'packages' => $packages]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'sessions' => 'required|integer|min:1',
+            'duration_months' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
             'original_price' => 'nullable|numeric|min:0',
             'is_active' => 'boolean'
@@ -46,7 +46,7 @@ class PtPackageController extends Controller
         if (!$package) return response()->json(['message' => 'Not found'], 404);
 
         $request->validate([
-            'sessions' => 'required|integer|min:1',
+            'duration_months' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
             'original_price' => 'nullable|numeric|min:0',
             'is_active' => 'boolean'
